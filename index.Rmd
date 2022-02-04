@@ -13,4 +13,4 @@ output:
 site: distill::distill_website
 ---
  
-The name is Ham, Maggie Ham.
+Hi, I'm Margaret Hammond, but my friends call me Maggie. I'm from metro-Detroit, graduated University of Michigan class of 2019. Currently a masters student at the University of California, Santa Barbara Bren School of Environment & Management.  Environmental science professional with a background in GIS and critical mineral research. Interested in environmental data science and creating a better future. Love to hike, do yoga, and enjoy a sunny beach day. 

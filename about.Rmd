@@ -1,10 +1,43 @@
 ---
-title: "About this site"
+title: "About Me"
 description: |
   Some additional details about the website
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
 ```
 
+### Sustainability & Data Management Experience:
+
+**Sustainable Energy Research Assistant – UCSB Bren School**, Santa Barbara, CA (11/21–Present) 
+  - Examined 22 company data center Environmental, Social, and Governmental (ESG) reports, synthesized information regarding SASB, TCFD, GRI standards, reported data in Microsoft Excel Online database.
+  
+  - Evaluate renewable energy, power use, and water use efficiency for 4 corporations using computer data centers to track the change of green energy efficiency for large scale computing.
+  
+  - Wrote 4 data center 800-word energy use summaries to be published on a data collection website to educate the public on data center growth and energy efficiencies. 
+
+***GIS Technician – US Geological Survey (USGS)***, Denver, CO (7/19–7/21)
+  - Led creation of beryllium and fluorspar US Mineral Deposit GIS data releases comprising of economic and historical data, summarizing data in 500-word abstract detailing critical mineral production and potential to ensure no import reliance in the future.
+  
+  - Recorded occurrence of unknown mine land from 15 states’ georeferenced topographic maps to help prevent land mismanagement: plotted 50,0000+ mine data entries using Arc GIS 10.8+.
+  - Researched beryllium and fluorspar markets, reading 300+ historical and current mining corporation documents and attending 2 Zoom conferences to become USMIN beryllium and fluorspar expert.
+  
+  - Oversaw 6 employees on the process of correctly recording mine feature points and polygons to create a cohesive database for project posterity.
+
+
+### Strategic Communications Experience
+
+***Library Engagement Ambassador – University of Michigan Library***, Ann Arbor, MI (9/17–5/19)
+
+  - Publicized and hosted monthly library events attended by 50+ students, including poetry slams, free professional headshots, and magazine workshops to create an inclusive library atmosphere for students. 
+  
+  - Promoted library services and resources to students with targeted campaigns; created Canva graphics to share with 1800+ followers on Facebook and Twitter 3 times a week.
+  
+
+***Explorer Guide – Michigan Department of Natural Resources***, Brighton, MI (5/18–8/18)
+  - Designed and led hour-long, twice-daily educational programs at amphitheater for 100+ total campers per day to increase awareness of invasive species, natural resources, wetlands, and other environmental topics. 
+  
+  - Increased attendance from 20 to 500+ patrons a week from May to August. Publicized events and encouraged attendance by designing Canva flyers, approaching campsites, and creating Facebook posts.
+  
