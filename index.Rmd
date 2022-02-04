@@ -1,0 +1,16 @@
+---
+title: "Margaret Hammond"
+image: "maggie.jpg"
+links:
+  - label: LinkedIn
+    url: "https://www.linkedin.com/in/margaret-hammond-202538156/"
+  - label: GitHub
+    url: "https://github.com/mbhammond"
+  - label: Email
+    url: "mailto:mbhammond@bren.ucsb.edu"
+output:
+  postcards::jolla
+site: distill::distill_website
+---
+ 
+The name is Ham, Maggie Ham.
