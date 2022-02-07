@@ -1,0 +1,23 @@
+---
+title: "Welcome"
+description: |
+  This is me welcoming everyone! Yay!
+author: 
+  - name: Margaret Hammond
+date: 2022-02-07
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+Hey everybody! Hope you're having a great day! Woohoo!
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Distill is a publication format for scientific and technical writing, native to the web.
+
+Learn more about using Distill at <https://rstudio.github.io/distill>.
+
+

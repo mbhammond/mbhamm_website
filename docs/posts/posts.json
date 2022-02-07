@@ -1,1 +1,36 @@
-[]
+[
+  {
+    "path": "posts/2022-02-07-welcome/",
+    "title": "Welcome",
+    "description": "This is me welcoming everyone! Yay!",
+    "author": [
+      {
+        "name": "Margaret Hammond",
+        "url": {}
+      }
+    ],
+    "date": "2022-02-07",
+    "categories": [],
+    "contents": "\r\nHey everybody! Hope you’re having a great day! Woohoo!\r\nDistill is a publication format for scientific and technical writing, native to the web.\r\nLearn more about using Distill at https://rstudio.github.io/distill.\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2022-02-07T14:28:41-08:00",
+    "input_file": {}
+  },
+  {
+    "path": "posts/2022-02-04-welcome/",
+    "title": "welcome",
+    "description": "A short description of the post.",
+    "author": [
+      {
+        "name": "Unknown",
+        "url": {}
+      }
+    ],
+    "date": "2022-02-04",
+    "categories": [],
+    "contents": "\r\nDistill is a publication format for scientific and technical writing, native to the web.\r\nLearn more about using Distill at https://rstudio.github.io/distill.\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2022-02-07T14:28:56-08:00",
+    "input_file": {}
+  }
+]
