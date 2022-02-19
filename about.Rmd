@@ -2,14 +2,32 @@
 title: "About Me"
 description: |
   Some additional details about my work experience
+author:
+  - name: Margaret Hammond
+    url: {https://github.com/mbhammond/a2_hammond_margaret}
+date: 2022-02-19
+output:
+  distill::distill_article:
+    self_contained: false
+    theme: flatly
+    code_folding: hide
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+```{r setup, include=FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+
 library(tidyverse)
+library(here)
+library(purrr)
+library(minpack.lm)
+library(broom)
+library(patchwork)
+library(kableExtra)
+library(janitor)
+library(modelr)
 ```
 
-### Sustainability & Data Management Experience:
+# Sustainability & Data Management Experience:
 
 **Sustainable Energy Research Assistant – UCSB Bren School**, Santa Barbara, CA (11/21–Present) 
   - Examined 22 company data center Environmental, Social, and Governmental (ESG) reports, synthesized information regarding SASB, TCFD, GRI standards, reported data in Microsoft Excel Online database.
@@ -41,3 +59,179 @@ library(tidyverse)
   
   - Increased attendance from 20 to 500+ patrons a week from May to August. Publicized events and encouraged attendance by designing Canva flyers, approaching campsites, and creating Facebook posts.
   
+# Example of Coding Experience
+
+### 1. Overview
+In this task, I will be using the Lightfoot (2020) data on lizards in the Jornada Basin LTER site, New Mexico, 1989-2006. I will be creating a non linear least squares model to estimate the parameters of a length to weight model for the lizard populations. 
+
+### 2. Explore the Data
+
+#### 2.1 Read in the data
+```{r}
+lizards <- read_csv(here("data", "lizard.csv")) %>% 
+  mutate(log_length = log(SV_length), # use log() to linearize the model
+         log_weight = log(weight))
+```
+### 3. Set up the model
+
+Must set up the NLS model of weight as a function of snout to vent length to be able to make guesses for coefficients a and b. Take the data and create a linear model in order for OLS regression to occur.
+
+
+$$
+W = a(SVL)^b
+$$
+In this model, W is weight, and SVL is snout to vent length.
+
+
+```{r}
+lizards_model <- function(a, SVL, b) {
+  W = a*SVL^b
+  return(W)
+}
+```
+
+
+
+```{r}
+parameter_guess <- lm(log_weight ~ log_length, data = lizards) # Created for OLS
+
+lizards_coef <- coef(parameter_guess) 
+
+# lizards_coef checking the coefficients
+```
+
+
+### 4. Functions
+Create the general lizards NLS model of weight as a function of snout to vent length. 
+
+```{r, results = FALSE}
+
+lizards_nls <- nls(weight ~ lizards_model(a, SV_length, b),
+                   data = lizards,
+                   start = list(
+                     a = 2.718^(lizards_coef[1]/lizards_coef[2]),
+                     b = lizards_coef[2]),
+                   trace = TRUE)
+```
+
+#### 4.1 Table of Model
+This table shows the estimated parameters for the NLS model. 
+
+```{r}
+tidy_nls <- tidy(lizards_nls)
+
+tidy_nls$p.value <- ifelse(tidy_nls$p.value < .001, paste('< .001'))
+
+tidy_nls %>% 
+  kable(col.names = c('Parameter', 
+                      'Estimated', 
+                      'Standard Error', 
+                      'Statistic',
+                      'P Values'), 
+        caption = 'Table 1. Parameter estimates of coefficient a and b for the nls model of weight as a function of snout to vent length of lizards in Jornada Basin LTER, from 1989-2006 (Lightfoot 2020) .',
+        digits = 4) %>% 
+  kable_classic(bootstrap_options = "striped", full_width = FALSE)
+```
+
+
+#### 4.2 NLS Predictions
+
+I will use the NLS model to generate predictions of weight based on snout to vent length from the Lightfoot, 2020 data. 
+
+```{r}
+general_mdl_pred <- predict(lizards_nls)
+
+
+lizards_complete <- cbind(lizards, general_mdl_pred)
+
+ggplot(data = lizards_complete,
+       aes(x = SV_length, 
+           y = general_mdl_pred)) +
+  geom_point(aes(x = SV_length, y = weight, color = sex)) +
+  scale_color_manual(values = c('pink', 'blue2')) +
+  geom_line(color = 'indianred2', size = 1) +
+  labs(x = 'Snout to Vent Length (mm)',
+       y = 'Weight (g)',
+       title = "Lizard NLS Model Predictions",
+       caption = 'Figure 1. NLS vs measured weight and
+       snout to vent length of lizards in
+       Jornada Basin LTER site, 1989-2006 (Lightfoot 2020)') +
+  theme_minimal()
+
+
+
+```
+
+
+#### Fit NLS to Western Whiptail lizard
+I will filter out the dataset for male Western Whiptail lizard (*Cnemidophorus tigrisatus*). Then, I will fit an NLS model to this subset. After, I compare the output from the species specific NLS model to the general NLS model for all species by graphing the model fits on the Western Whiptail male data. 
+
+
+```{r, results = FALSE}
+
+# filter out just male Western Whiptail
+
+whip_sub <- lizards %>% 
+  filter(spp == 'CNTI', 
+         sex == 'M') %>% 
+  mutate(log_weight = log(weight)) %>% 
+  mutate(log_length = log(SV_length))
+
+
+whip_pred <- lm(log_weight ~ log_length, data = whip_sub)
+
+whip_coef <- coefficients(whip_pred)
+
+whip_nls <- nls(weight ~ lizards_model(a, SV_length, b),
+                   data = whip_sub,
+                   start = list(
+                     a = 2.718^(whip_coef[1]/whip_coef[2]),
+                     b = whip_coef[2]),
+                   trace = TRUE)
+
+tidy_whip <- tidy(whip_nls)
+
+# tidy_whip
+
+```
+
+#### Compare the Species NLS to General NLS to see which is a best fit for the Western Whiptail species. 
+
+```{r}
+lizards_general_whip <- lizards_complete %>% 
+  filter(spp == 'CNTI',
+         sex == 'M')
+
+whip_mdl_pred <- predict(whip_nls)
+
+complete_pred <- cbind(lizards_general_whip, whip_mdl_pred)
+
+rmse_whip <- rmse(whip_nls, complete_pred)
+
+rmse_gen <- rmse(lizards_nls, complete_pred)
+
+rmse_complete <- cbind(rmse_whip, rmse_gen)
+# rmse_complete, rmse_whip has a lower value than rmse_gen, RMSE of whip specific set is better for Western Whiptail species
+
+
+
+```
+
+```{r}
+# Create plot showing the differences between the general NLS and species specific nls for Western Whip
+caption = 'Figure 2. NLS species specific model for Western Whiptail (in red) vs NLS of all lizard species (in navy) in Jornada Basin LTER site, 1989 - 2006. Black points represent actual Western Whiptail measurements of weight (g) to snout to vent length (mm) (Lightfoot 2020). RMSE calculations done for both models, species specific model contained a lower RMSE score of 3.349 compared to general NLS model RMSE of 3.562. The species specific RMSE should be used when doing RMSE calculations for Western Whiptail, it is better fit for the data.'
+
+ggplot(data = complete_pred) +
+  geom_point(aes(x = SV_length, y = weight)) +
+  geom_line(aes(x = SV_length, y = general_mdl_pred), color = 'red', size = 1) +
+  geom_line(aes(x = SV_length, y = whip_mdl_pred), color = 'navy', size = 1) +
+  theme_minimal() +
+  labs(x = 'Snout to Vent Length (mm)',
+       y = 'Weight (g)',
+       title = 'General NLS vs. Species Specific NLS',
+      caption = str_wrap(caption)) 
+```
+
+
+#### Data Citation
+Lightfoot, D. and W.G. Whitford. 2020. Lizard pitfall trap data from 11 NPP study locations at the Jornada Basin LTER site, 1989-2006 ver 37. Environmental Data Initiative. https://doi.org/10.6073/pasta/4a6e258fb49c31e222ecbbcfd128967f
