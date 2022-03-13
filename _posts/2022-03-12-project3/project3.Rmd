@@ -1,7 +1,7 @@
 ---
 title: "Experience in Non-Linear Least Squares"
 description: |
-  A short description of the post.
+  An output created for my Advanced Data Analysis class using non-linear least squared to create a model that estimates the parameters of a length to weight model for the lizard populations on New Mexico.
 author:
   - name: Margaret Hammond
     url: {https://github.com/mbhammond/a2-hammond-margaret}

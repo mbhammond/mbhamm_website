@@ -1,7 +1,7 @@
 ---
-title: "Text Analysis Example"
+title: "Album Sentiment Text Analysis"
 description: |
-  A short description of the post.
+  R text analysis of Lana Del Rey's breakout album, *Born to Die*. I had a great time analyzing each track on the album, and the results are surprising!
 author:
   - name: Margaret Hammond
     url: {https://github.com/mbhammond/a4-hammond-margaret}
