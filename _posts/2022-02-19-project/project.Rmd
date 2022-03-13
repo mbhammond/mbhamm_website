@@ -1,5 +1,5 @@
 ---
-title: "Project"
+title: "Binary Logistic Regression Experience"
 description: |
   This is an example of an assignment I would do in ESM 244.
 author:
